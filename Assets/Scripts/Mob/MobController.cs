@@ -28,7 +28,12 @@ namespace Mob
 
         public void Initialize()
         {
-            
+            movementBehaviour.Initialize();
+        }
+        
+        public void StartMove()
+        {
+            movementBehaviour.StartMove(side);
         }
         
         private void SetSideMaterial()

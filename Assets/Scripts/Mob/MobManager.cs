@@ -14,7 +14,7 @@ namespace Mob
 
         private ObjectPool<MobController> _friendMobPool;
         
-        private void Initialize()
+        public void Initialize()
         {
             _friendMobPool = new ObjectPool<MobController>((() =>
             {
@@ -23,6 +23,14 @@ namespace Mob
                 instance.Initialize();
                 return instance;
             }));
+        }
+
+        public void Spawn(Vector3 position)
+        {
+            MobController mob = _friendMobPool.Get();
+            mob.transform.position = position;
+            mob.gameObject.SetActive(true);
+            mob.StartMove();
         }
     }
 }
