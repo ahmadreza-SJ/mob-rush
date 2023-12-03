@@ -10,8 +10,7 @@ using UnityEngine.InputSystem;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private MobManager mobManager;
-    
-    
+    [SerializeField] private EnemyCastleManager enemyCastleManager;
     [SerializeField] private CannonController cannonController;
 
     private CancellationTokenSource _cannonFireCancellationToken;
@@ -23,6 +22,7 @@ public class LevelManager : MonoBehaviour
         InitializeInput();
         InitializeCannon();
         InitializeMob();
+        InitializeEnemyCastle();
     }
 
     private void InitializeInput()
@@ -41,7 +41,7 @@ public class LevelManager : MonoBehaviour
         
         cannonController.FireBehaviour.FiredAction += SpawnFriendlyMob;
     }
-
+    
     private void CannonEndFire()
     {
         _cannonFireCancellationToken?.Cancel();
@@ -54,6 +54,17 @@ public class LevelManager : MonoBehaviour
         cannonController.FireBehaviour.KeepFiring(_cannonFireCancellationToken.Token).Forget();
     }
 
+    private void InitializeEnemyCastle()
+    {
+        enemyCastleManager.Initialize();
+        EnemyCastleManager.CastleSpawnTimeReached += CastleSpawnEnemyMob;
+    }
+
+    private void CastleSpawnEnemyMob(EnemyCastleController castle, Vector3 position)
+    {
+        mobManager.SpawnEnemy(position);
+    }
+
     private void InitializeMob()
     {
         mobManager.Initialize();
@@ -61,7 +72,7 @@ public class LevelManager : MonoBehaviour
 
     private void SpawnFriendlyMob()
     {
-        mobManager.Spawn(cannonController.FireBehaviour.SpawnPoint.position);
+        mobManager.SpawnFriendly(cannonController.FireBehaviour.SpawnPoint.position);
     }
 
     private void MoveCannonXCallback(Vector2 delta)         
