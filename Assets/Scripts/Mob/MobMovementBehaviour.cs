@@ -20,18 +20,24 @@ namespace Mob
         private Vector3 _moveDirection;
         private Transform _transform;
         private Rigidbody _rigidbody;
-        private Tween _moveTween;
         private bool _isMoving;
         private bool _targetLocked;
         
         private Vector3 _target = Vector3.zero;
+
+        public bool TargetLocked => _targetLocked;
 
         public void Initialize()
         {
             _transform = transform;
             _rigidbody = GetComponent<Rigidbody>();
         }
-        
+
+        public void ReInitialize()
+        {
+            _targetLocked = false;
+            _isMoving = false;
+        }
         
         public void StartMove(Side side)
         {

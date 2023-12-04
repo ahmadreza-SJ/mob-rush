@@ -21,7 +21,8 @@ namespace Mob
         public MobCollisionBehaviour CollisionBehaviour => collisionBehaviour;
 
         public Side Side => side;
-
+        
+        
         private void OnValidate()
         {
             SetSideMaterial();
@@ -39,7 +40,13 @@ namespace Mob
             collisionBehaviour.Initialize(this);
             
         }
-        
+
+
+        public void Reinitialize()
+        {
+            movementBehaviour.ReInitialize();
+            collisionBehaviour.Reinitialize();
+        }
         
         
         public void StartMove()

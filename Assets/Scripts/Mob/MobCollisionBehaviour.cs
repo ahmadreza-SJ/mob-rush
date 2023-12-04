@@ -15,6 +15,11 @@ namespace Mob
             _mobController = mobController;
         }
 
+        public void Reinitialize()
+        {
+            
+        }
+
         private void OnCollisionEnter(Collision other)
         {
             Collided?.Invoke(_mobController, other.gameObject);

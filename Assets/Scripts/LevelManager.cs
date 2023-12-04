@@ -82,7 +82,16 @@ public class LevelManager : MonoBehaviour
 
     private void OnCastleDestroyed(EnemyCastleController castle)
     {
+        enemyCastleManager.RemoveCastle(castle);
         
+        foreach (MobController mob in mobManager.ActiveFriendMobs)
+        {
+            if(mob.MovementBehaviour.TargetLocked && enemyCastleManager.TryGetNearestCastle(mob.transform.position, out EnemyCastleController nearestCastle))
+            {
+                mob.MovementBehaviour.ForceSetTarget(nearestCastle.GetPosition());
+            }
+            
+        }
     }
 
     private void FriendMobEnteredCastleArea(EnemyCastleController castle, MobController mob)
@@ -110,6 +119,13 @@ public class LevelManager : MonoBehaviour
             {
                 mobManager.Remove(self);
                 mobManager.Remove(other.GetComponent<MobController>());
+            }
+
+            if (other.CompareTag("EnemyCastle"))
+            {
+                mobManager.Remove(self);
+                EnemyCastleController castle = other.GetComponent<EnemyCastleController>();
+                castle.TakeDamage(1);
             }
         }
         else

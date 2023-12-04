@@ -32,11 +32,15 @@ namespace Mob
                     .GetComponent<MobController>();
                 instance.Initialize();
                 return instance;
-            }), controller => ActiveFriendMobs.Add(controller), controller =>
+            }), controller =>
+            {
+                controller.Reinitialize();
+                ActiveFriendMobs.Add(controller);
+            }, controller =>
             {
                 controller.gameObject.SetActive(false);
                 ActiveFriendMobs.Remove(controller);
-            });
+            }, collectionCheck:false);
             
             _enemyMobPool = new ObjectPool<MobController>((() =>
             {
@@ -44,7 +48,10 @@ namespace Mob
                     .GetComponent<MobController>();
                 instance.Initialize();
                 return instance;
-            }), actionOnRelease: controller =>
+            }), controller =>
+            {
+                controller.Reinitialize();
+            }, actionOnRelease: controller =>
             {
                 controller.gameObject.SetActive(false);
             }, collectionCheck:false);

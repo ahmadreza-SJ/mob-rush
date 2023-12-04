@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Mob;
+using TMPro;
 using UnityEngine;
 
 namespace Castle
@@ -12,15 +13,32 @@ namespace Castle
         public static Action<EnemyCastleController> CastleDestroyed;
     
         [SerializeField] private Transform spawnPoint;
+        [SerializeField] private TMP_Text healthText;
     
         private int _health;
         private float _spawnInterval;
         private CancellationTokenSource _spawnCancellationToken;
         private Transform _transform;
 
+        private void Start()
+        {
+            EnemyCastleManager.SubscribeCastle(this);
+        }
+
         public Vector3 GetPosition()
         {
             return _transform.position;
+        }
+
+        public void TakeDamage(int damage)
+        {
+            _health -= damage;
+            if(_health <= 0)
+            {
+                Destroy(gameObject);
+            }
+
+            healthText.text = _health.ToString();
         }
         
         public void Initialize(int health, float spawnInterval)
@@ -28,13 +46,14 @@ namespace Castle
             _transform = transform;
             _health = health;
             _spawnInterval = spawnInterval;
+            healthText.text = _health.ToString();
             ResetSpawnTimer();
         }
 
         private void OnDestroy()
         {
             CastleDestroyed?.Invoke(this);
-            _spawnCancellationToken.Cancel();
+            _spawnCancellationToken?.Cancel();
         }
 
         private void ResetSpawnTimer()

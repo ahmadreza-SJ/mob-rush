@@ -1,52 +1,69 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Castle;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[Serializable]
-public class EnemyCastleManager
+namespace Castle
 {
-    [SerializeField] [Range(10, 100)] private int health = 10;
-    [SerializeField] [Range(0.1f, 10)] private float spawnInterval = 1f;
-    [FormerlySerializedAs("enemyCastles")] [SerializeField] private List<EnemyCastleController> castles;
-    
-    
-    public static Action<EnemyCastleController, Vector3> CastleSpawnTimeReached;
-
-    public List<EnemyCastleController> Castles => castles;
-
-
-    public bool TryGetNearestCastle(Vector3 to, out EnemyCastleController nearestCastle)
+    [Serializable]
+    public class EnemyCastleManager
     {
-        nearestCastle = null;
-        if (castles.Count == 0)
+        [SerializeField] [Range(10, 100)] private int health = 10;
+        [SerializeField] [Range(0.1f, 10)] private float spawnInterval = 1f;
+        
+        private List<EnemyCastleController> _castles;
+    
+    
+        public static Action<EnemyCastleController, Vector3> CastleSpawnTimeReached;
+        
+        private static Action<EnemyCastleController> _castleSubscribed;
+
+        public List<EnemyCastleController> Castles => _castles;
+
+        public static void SubscribeCastle(EnemyCastleController castle)
         {
-            return false;
+            _castleSubscribed?.Invoke(castle);
+        }
+
+        public bool TryGetNearestCastle(Vector3 to, out EnemyCastleController nearestCastle)
+        {
+            nearestCastle = null;
+            if (_castles.Count == 0)
+            {
+                return false;
+            }
+        
+            float minDistance = float.MaxValue;
+            foreach (EnemyCastleController castle in _castles)
+            {
+                float dist = (to - castle.GetPosition()).magnitude;
+                if (minDistance > dist)
+                {
+                    minDistance = dist;
+                    nearestCastle = castle;
+                }
+            
+            }
+
+            return true;
+        }
+
+        public void RemoveCastle(EnemyCastleController castle)
+        {
+            _castles.Remove(castle);
         }
         
-        float minDistance = float.MaxValue;
-        foreach (EnemyCastleController castle in castles)
+        // Start is called before the first frame update
+        public void Initialize()
         {
-            float dist = (to - castle.GetPosition()).magnitude;
-            if (minDistance > dist)
-            {
-                minDistance = dist;
-                nearestCastle = castle;
-            }
-            
+            _castles = new List<EnemyCastleController>();
+            _castleSubscribed += OnCastleSubscribed;
         }
 
-        return true;
-    }
-    // Start is called before the first frame update
-    public void Initialize()
-    {
-        foreach (EnemyCastleController enemyCastle in castles)
+        private void OnCastleSubscribed(EnemyCastleController castle)
         {
-            enemyCastle.Initialize(health, spawnInterval);
-        }   
+            castle.Initialize(health, spawnInterval);
+            _castles.Add(castle);
+        }
     }
 }
