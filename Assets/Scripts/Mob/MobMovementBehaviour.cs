@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -18,12 +19,15 @@ namespace Mob
         
         private Vector3 _moveDirection;
         private Transform _transform;
+        private Rigidbody _rigidbody;
         private Tween _moveTween;
+        private bool _isMoving;
         
 
         public void Initialize()
         {
             _transform = transform;
+            _rigidbody = GetComponent<Rigidbody>();
         }
         
         
@@ -31,7 +35,22 @@ namespace Mob
         {
             _moveDirection = _sideMoveDirectionDictionary[side];
             Vector3 destination = _transform.position + _moveDirection * maxDistance;
-            _moveTween = transform.DOMove(destination, moveSpeed).SetEase(Ease.Linear).SetSpeedBased(true);
+            _isMoving = true;
+            KeepMoving().Forget();
+        }
+
+        public async UniTask KeepMoving()
+        {
+            while (_isMoving)
+            {
+                _rigidbody.velocity = _moveDirection * moveSpeed;
+                await UniTask.Yield();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            _isMoving = false;
         }
     }
 }

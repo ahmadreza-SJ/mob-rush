@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FriendlyMob
       objectReference: {fileID: 0}
+    - target: {fileID: 4194905964844297366, guid: 9c9468f4209f14749b5868bc1cf9734b,
+        type: 3}
+      propertyPath: m_TagString
+      value: FriendlyMob
+      objectReference: {fileID: 0}
     - target: {fileID: 4493946219412714710, guid: 9c9468f4209f14749b5868bc1cf9734b,
         type: 3}
       propertyPath: m_RootOrder

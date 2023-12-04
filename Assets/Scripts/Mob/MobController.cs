@@ -12,9 +12,12 @@ namespace Mob
         [SerializeField] private Material enemyMat;
         [SerializeField] private List<Renderer> sideColoredRenderers;
         [SerializeField] private MobMovementBehaviour movementBehaviour;
+        [SerializeField] private MobCollisionBehaviour collisionBehaviour;
 
         private Material _sideMaterial;
 
+        
+        
         public Side Side => side;
 
         private void OnValidate()
@@ -29,6 +32,8 @@ namespace Mob
         public void Initialize()
         {
             movementBehaviour.Initialize();
+            collisionBehaviour.Initialize(this);
+            
         }
         
         public void StartMove()

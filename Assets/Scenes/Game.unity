@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobManager:
-    friendlyMobPrefab: {fileID: 4442288605962436601, guid: 9c9468f4209f14749b5868bc1cf9734b,
+    friendlyMobPrefab: {fileID: 5962461211081946645, guid: b9a652506c56dbd47bbef8231f0b22a1,
       type: 3}
     enemyMobPrefab: {fileID: 5962461211081946645, guid: 021db597ba442e741836fc5f072d9ff7,
       type: 3}
@@ -161,7 +161,7 @@ MonoBehaviour:
     enemyMobParent: {fileID: 1505793889}
   enemyCastleManager:
     health: 10
-    spawnInterval: 1
+    spawnInterval: 0.32
     castles:
     - {fileID: 3411477603270478869}
   cannonController: {fileID: 1748947421}
@@ -302,7 +302,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 741732123}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1
@@ -515,7 +515,7 @@ BoxCollider:
   m_GameObject: {fileID: 1654930657}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -787,3 +787,77 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71ba6e3a653908349ab24ad414bb3fab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &4961395264539498349
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4961395264915218872, guid: c3dfbc4592f3a9049a188a229579c2b4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961395264915218872, guid: c3dfbc4592f3a9049a188a229579c2b4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.17999983
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961395264915218872, guid: c3dfbc4592f3a9049a188a229579c2b4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.496
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961395264915218872, guid: c3dfbc4592f3a9049a188a229579c2b4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961395264915218872, guid: c3dfbc4592f3a9049a188a229579c2b4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961395264915218872, guid: c3dfbc4592f3a9049a188a229579c2b4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961395264915218872, guid: c3dfbc4592f3a9049a188a229579c2b4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961395264915218872, guid: c3dfbc4592f3a9049a188a229579c2b4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961395264915218872, guid: c3dfbc4592f3a9049a188a229579c2b4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961395264915218872, guid: c3dfbc4592f3a9049a188a229579c2b4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961395264915218872, guid: c3dfbc4592f3a9049a188a229579c2b4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961395264915218873, guid: c3dfbc4592f3a9049a188a229579c2b4,
+        type: 3}
+      propertyPath: m_Name
+      value: MultiplierGate
+      objectReference: {fileID: 0}
+    - target: {fileID: 5808197690008604745, guid: c3dfbc4592f3a9049a188a229579c2b4,
+        type: 3}
+      propertyPath: multiplyFactor
+      value: 13
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c3dfbc4592f3a9049a188a229579c2b4, type: 3}

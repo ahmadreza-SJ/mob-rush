@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1712816721655864036}
   - component: {fileID: 1712816721655864043}
   - component: {fileID: 1712816721655864042}
-  - component: {fileID: 1712816721655864037}
   m_Layer: 0
   m_Name: Carrier
   m_TagString: Untagged
@@ -85,19 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1712816721655864037
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1712816721655864039}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1712816722017540822
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +186,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: WheelFL
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5079273007352018822, guid: 0d99334c1ca6ff740952aa88872e8a34,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5079273007352018822, guid: 0d99334c1ca6ff740952aa88872e8a34, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0d99334c1ca6ff740952aa88872e8a34, type: 3}
 --- !u!4 &207299553755717465 stripped
 Transform:
@@ -275,7 +267,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: WheelBR
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5079273007352018822, guid: 0d99334c1ca6ff740952aa88872e8a34,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5079273007352018822, guid: 0d99334c1ca6ff740952aa88872e8a34, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0d99334c1ca6ff740952aa88872e8a34, type: 3}
 --- !u!4 &207299554968923560 stripped
 Transform:
@@ -350,7 +348,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: WheelBL
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5079273007352018822, guid: 0d99334c1ca6ff740952aa88872e8a34,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5079273007352018822, guid: 0d99334c1ca6ff740952aa88872e8a34, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0d99334c1ca6ff740952aa88872e8a34, type: 3}
 --- !u!4 &207299555667455575 stripped
 Transform:
@@ -425,7 +429,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: WheelFR
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5079273007352018822, guid: 0d99334c1ca6ff740952aa88872e8a34,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5079273007352018822, guid: 0d99334c1ca6ff740952aa88872e8a34, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0d99334c1ca6ff740952aa88872e8a34, type: 3}
 --- !u!4 &2538290501769520358 stripped
 Transform:

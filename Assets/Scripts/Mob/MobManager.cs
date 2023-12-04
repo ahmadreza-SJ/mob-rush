@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace Mob
 {
@@ -36,20 +38,36 @@ namespace Mob
             }));
         }
 
-        public void SpawnFriendly(Vector3 position)
+        public List<MobController> Spawn(Side side, Vector3 position, int count = 1, float randFactor = 0)
         {
-            MobController mob = _friendMobPool.Get();
-            mob.transform.position = position;
-            mob.gameObject.SetActive(true);
-            mob.StartMove();
+            List<MobController> mobs = SpawnDeferred(side, position, count);
+            FinishSpawn(mobs);
+            return mobs;
         }
         
-        public void SpawnEnemy(Vector3 position)
+        public List<MobController> SpawnDeferred(Side side, Vector3 position, int count = 1 , float randFactor = 0)
         {
-            MobController mob = _enemyMobPool.Get();
-            mob.transform.position = position;
-            mob.gameObject.SetActive(true);
-            mob.StartMove();
+            List<MobController> spawnedMobs = new List<MobController>();
+            for (int i = 0; i < count; i++)
+            {
+                Vector3 rand = Random.insideUnitSphere;
+                rand.y = 0;
+                MobController mob = side == Side.Friend ? _friendMobPool.Get() : _enemyMobPool.Get();
+                mob.transform.position = position +  rand * randFactor;
+                spawnedMobs.Add(mob);
+                
+            }
+            return spawnedMobs;
         }
+
+        public void FinishSpawn(List<MobController> mobControllers)
+        {
+            foreach (MobController mobController in mobControllers)
+            {
+                mobController.gameObject.SetActive(true);
+                mobController.StartMove();
+            }
+        }
+
     }
 }

@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 294140895908552606, guid: 9c9468f4209f14749b5868bc1cf9734b,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 658846255646611693, guid: 9c9468f4209f14749b5868bc1cf9734b,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -15,6 +20,11 @@ PrefabInstance:
     - target: {fileID: 4194905964844297366, guid: 9c9468f4209f14749b5868bc1cf9734b,
         type: 3}
       propertyPath: m_Name
+      value: EnemyMob
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194905964844297366, guid: 9c9468f4209f14749b5868bc1cf9734b,
+        type: 3}
+      propertyPath: m_TagString
       value: EnemyMob
       objectReference: {fileID: 0}
     - target: {fileID: 4442288605962436601, guid: 9c9468f4209f14749b5868bc1cf9734b,
