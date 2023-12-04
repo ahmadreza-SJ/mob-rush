@@ -18,16 +18,25 @@ namespace Mob
 
         private ObjectPool<MobController> _friendMobPool;
         private ObjectPool<MobController> _enemyMobPool;
+
+        // private List<MobController> _activeEnemyMobs;
+
+        public readonly List<MobController> ActiveFriendMobs = new List<MobController>();
         
         public void Initialize()
         {
+            
             _friendMobPool = new ObjectPool<MobController>((() =>
             {
                 MobController instance = Object.Instantiate(friendlyMobPrefab, friendMobParent)
                     .GetComponent<MobController>();
                 instance.Initialize();
                 return instance;
-            }));
+            }), controller => ActiveFriendMobs.Add(controller), controller =>
+            {
+                controller.gameObject.SetActive(false);
+                ActiveFriendMobs.Remove(controller);
+            });
             
             _enemyMobPool = new ObjectPool<MobController>((() =>
             {
@@ -35,7 +44,22 @@ namespace Mob
                     .GetComponent<MobController>();
                 instance.Initialize();
                 return instance;
-            }));
+            }), actionOnRelease: controller =>
+            {
+                controller.gameObject.SetActive(false);
+            }, collectionCheck:false);
+        }
+
+        public void Remove(MobController mob)
+        {
+            if (mob.Side == Side.Friend)
+            {
+                _friendMobPool.Release(mob);
+            }
+            else
+            {
+                _enemyMobPool.Release(mob);
+            }
         }
 
         public List<MobController> Spawn(Side side, Vector3 position, int count = 1, float randFactor = 0)

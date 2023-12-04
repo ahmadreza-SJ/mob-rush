@@ -138,9 +138,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3411477604008975597}
   - component: {fileID: 5445592577551710671}
+  - component: {fileID: 4536560394525585649}
   m_Layer: 0
   m_Name: EnemyCastel
-  m_TagString: Untagged
+  m_TagString: EnemyCastle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -175,3 +176,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 1850216895280971391}
+--- !u!135 &4536560394525585649
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3411477604008975596}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 6
+  m_Center: {x: 0, y: 0, z: 0}

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Cannon;
+using Castle;
 using Cysharp.Threading.Tasks;
 using Gate;
 using Mob;
@@ -75,6 +76,19 @@ public class LevelManager : MonoBehaviour
     {
         enemyCastleManager.Initialize();
         EnemyCastleManager.CastleSpawnTimeReached += CastleSpawnEnemyMob;
+        EnemyCastleController.FriendMobEnteredArea += FriendMobEnteredCastleArea;
+        EnemyCastleController.CastleDestroyed += OnCastleDestroyed;
+    }
+
+    private void OnCastleDestroyed(EnemyCastleController castle)
+    {
+        
+    }
+
+    private void FriendMobEnteredCastleArea(EnemyCastleController castle, MobController mob)
+    {
+        mob.MovementBehaviour.SetTarget(castle.transform.position);
+        mob.MovementBehaviour.LockTarget(true);
     }
 
     private void CastleSpawnEnemyMob(EnemyCastleController castle, Vector3 position)
@@ -94,8 +108,15 @@ public class LevelManager : MonoBehaviour
         {
             if (other.CompareTag("EnemyMob"))
             {
-                Destroy(self.gameObject);
-                Destroy(other);
+                mobManager.Remove(self);
+                mobManager.Remove(other.GetComponent<MobController>());
+            }
+        }
+        else
+        {
+            if (other.CompareTag("LoseTrigger"))
+            {
+                Lose();
             }
         }
     }
@@ -108,5 +129,10 @@ public class LevelManager : MonoBehaviour
     private void MoveCannonXCallback(Vector2 delta)         
     {
         cannonController.MovementBehaviour.MoveCannonX(delta.x);
+    }
+
+    private void Lose()
+    {
+        Debug.Log("Lost");
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Vector3 = System.Numerics.Vector3;
 
 namespace Mob
 {
@@ -16,8 +17,9 @@ namespace Mob
 
         private Material _sideMaterial;
 
-        
-        
+        public MobMovementBehaviour MovementBehaviour => movementBehaviour;
+        public MobCollisionBehaviour CollisionBehaviour => collisionBehaviour;
+
         public Side Side => side;
 
         private void OnValidate()
@@ -28,6 +30,8 @@ namespace Mob
                 r.material = _sideMaterial;
             }
         }
+        
+        
 
         public void Initialize()
         {
@@ -35,6 +39,8 @@ namespace Mob
             collisionBehaviour.Initialize(this);
             
         }
+        
+        
         
         public void StartMove()
         {

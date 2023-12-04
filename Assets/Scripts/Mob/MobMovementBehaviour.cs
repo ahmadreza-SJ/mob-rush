@@ -22,7 +22,9 @@ namespace Mob
         private Rigidbody _rigidbody;
         private Tween _moveTween;
         private bool _isMoving;
+        private bool _targetLocked;
         
+        private Vector3 _target = Vector3.zero;
 
         public void Initialize()
         {
@@ -34,7 +36,7 @@ namespace Mob
         public void StartMove(Side side)
         {
             _moveDirection = _sideMoveDirectionDictionary[side];
-            Vector3 destination = _transform.position + _moveDirection * maxDistance;
+            _target = _transform.position + _moveDirection * maxDistance;
             _isMoving = true;
             KeepMoving().Forget();
         }
@@ -43,11 +45,31 @@ namespace Mob
         {
             while (_isMoving)
             {
-                _rigidbody.velocity = _moveDirection * moveSpeed;
+                _rigidbody.velocity = (_target - _transform.position).normalized * moveSpeed;
                 await UniTask.Yield();
             }
         }
 
+        public void SetTarget(Vector3 newTarget)
+        {
+            if (_targetLocked)
+            {
+                return;
+            }
+            
+            _target = newTarget;
+        }
+        
+        public void ForceSetTarget(Vector3 newTarget)
+        {
+            _target = newTarget;
+        }
+
+        public void LockTarget(bool locked)
+        {
+            _targetLocked = locked;
+        }
+        
         private void OnDestroy()
         {
             _isMoving = false;
