@@ -16,6 +16,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private EnemyCastleManager enemyCastleManager;
     [SerializeField] private GateManager gateManager;
     [SerializeField] private CannonController cannonController;
+    [SerializeField] private PopUpController winPopUpController;
+    [SerializeField] private PopUpController losePopUpController;
 
     private CancellationTokenSource _cannonFireCancellationToken;
     
@@ -23,6 +25,7 @@ public class LevelManager : MonoBehaviour
     
     void Start()
     {
+        InitializePopUps();
         InitializeInput();
         InitializeCannon();
         InitializeMob();
@@ -30,9 +33,42 @@ public class LevelManager : MonoBehaviour
         InitializeGates();
     }
 
+    private void ReInitialize()
+    {
+        _inputManager.ReInitialize();
+        mobManager.ReInitialize();
+        enemyCastleManager.ReInitialize();
+    }
+
     private void InitializeInput()
     {
         _inputManager.Initialize();
+    }
+
+    private void InitializePopUps()
+    {
+        winPopUpController.Initialize();
+        losePopUpController.Initialize();
+        
+        winPopUpController.RestartBtnClicked += PopUpControllerOnRestartBtnClicked;
+        losePopUpController.RestartBtnClicked += PopUpControllerOnRestartBtnClicked;
+        winPopUpController.MenuBtnClicked += PopUpControllerOnMenuBtnClicked;
+        losePopUpController.MenuBtnClicked += PopUpControllerOnMenuBtnClicked;
+    }
+
+    private void PopUpControllerOnMenuBtnClicked()
+    {
+        
+        
+        winPopUpController.gameObject.SetActive(false);
+        losePopUpController.gameObject.SetActive(false);
+    }
+
+    private void PopUpControllerOnRestartBtnClicked()
+    {
+        ReInitialize();
+        winPopUpController.gameObject.SetActive(false);
+        losePopUpController.gameObject.SetActive(false);
     }
 
     private void InitializeCannon()
@@ -82,7 +118,14 @@ public class LevelManager : MonoBehaviour
 
     private void OnCastleDestroyed(EnemyCastleController castle)
     {
+        
         enemyCastleManager.RemoveCastle(castle);
+        
+        if (enemyCastleManager.Castles.Count == 0)
+        {
+            Win();
+            return;
+        }
         
         foreach (MobController mob in mobManager.ActiveFriendMobs)
         {
@@ -90,7 +133,6 @@ public class LevelManager : MonoBehaviour
             {
                 mob.MovementBehaviour.ForceSetTarget(nearestCastle.GetPosition());
             }
-            
         }
     }
 
@@ -150,5 +192,16 @@ public class LevelManager : MonoBehaviour
     private void Lose()
     {
         Debug.Log("Lost");
+        _inputManager.DisableGameplayInput();
+        mobManager.RemoveAll();
+        losePopUpController.gameObject.SetActive(true);
+    }
+
+    private void Win()
+    {
+        Debug.Log("Won");
+        _inputManager.DisableGameplayInput();
+        mobManager.RemoveAll();
+        winPopUpController.gameObject.SetActive(true);
     }
 }

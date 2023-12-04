@@ -25,6 +25,16 @@ public class InputManager
         _gameInput.Gameplay.PrimaryTouchContact.canceled += PrimaryContactOnCanceled;
     }
 
+    public void ReInitialize()
+    {
+        _gameInput.Gameplay.Enable();
+    }
+
+    public void DisableGameplayInput()
+    {
+        _gameInput.Gameplay.Disable();
+    }
+
     private void PrimaryContactOnCanceled(InputAction.CallbackContext ctx)
     {
         _isTouching = false;

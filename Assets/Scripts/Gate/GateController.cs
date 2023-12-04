@@ -47,9 +47,10 @@ namespace Gate
             _mobsToIgnore.AddRange(mob);
         }
 
-        private async UniTask ForgetMobIgnorance()
+        private async UniTask ForgetMobIgnorance(MobController mob)
         {
             await UniTask.WaitForSeconds(forgetMobIgnoranceSeconds);
+            _mobsToIgnore.Remove(mob);
         }
         
         private void OnTriggerEnter(Collider other)
@@ -70,7 +71,7 @@ namespace Gate
         {
             if (other.TryGetComponent(out MobController mobController))
             {
-                ForgetMobIgnorance().Forget();
+                ForgetMobIgnorance(mobController).Forget();
             }
         }
         

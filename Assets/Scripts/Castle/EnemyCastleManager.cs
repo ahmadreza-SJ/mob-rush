@@ -12,6 +12,7 @@ namespace Castle
         [SerializeField] [Range(0.1f, 10)] private float spawnInterval = 1f;
         
         private List<EnemyCastleController> _castles;
+        private List<EnemyCastleController> _destroyedCastles;
     
     
         public static Action<EnemyCastleController, Vector3> CastleSpawnTimeReached;
@@ -51,14 +52,31 @@ namespace Castle
         public void RemoveCastle(EnemyCastleController castle)
         {
             _castles.Remove(castle);
+            _destroyedCastles.Add(castle);
         }
+        
         
         // Start is called before the first frame update
         public void Initialize()
         {
             _castles = new List<EnemyCastleController>();
+            _destroyedCastles = new List<EnemyCastleController>();
+            
+            // EnemyCastleController.CastleDestroyed += OnCastleDestroyed;
             _castleSubscribed += OnCastleSubscribed;
         }
+
+        public void ReInitialize()
+        {
+            foreach (EnemyCastleController castle in _destroyedCastles)
+            {
+                _castles.Add(castle);
+                castle.Initialize(health, spawnInterval);
+            }
+            
+            _destroyedCastles.Clear();
+        }
+
 
         private void OnCastleSubscribed(EnemyCastleController castle)
         {

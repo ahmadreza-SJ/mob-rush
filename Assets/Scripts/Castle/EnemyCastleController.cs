@@ -35,7 +35,7 @@ namespace Castle
             _health -= damage;
             if(_health <= 0)
             {
-                Destroy(gameObject);
+                DestroyCastle();
             }
 
             healthText.text = _health.ToString();
@@ -43,15 +43,18 @@ namespace Castle
         
         public void Initialize(int health, float spawnInterval)
         {
+            
             _transform = transform;
             _health = health;
             _spawnInterval = spawnInterval;
             healthText.text = _health.ToString();
             ResetSpawnTimer();
+            gameObject.SetActive(true);
         }
 
-        private void OnDestroy()
+        private void DestroyCastle()
         {
+            gameObject.SetActive(false);
             CastleDestroyed?.Invoke(this);
             _spawnCancellationToken?.Cancel();
         }

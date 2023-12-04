@@ -19,7 +19,7 @@ namespace Mob
         private ObjectPool<MobController> _friendMobPool;
         private ObjectPool<MobController> _enemyMobPool;
 
-        // private List<MobController> _activeEnemyMobs;
+        public readonly List<MobController> ActiveEnemyMobs = new List<MobController>();
 
         public readonly List<MobController> ActiveFriendMobs = new List<MobController>();
         
@@ -35,11 +35,10 @@ namespace Mob
             }), controller =>
             {
                 controller.Reinitialize();
-                ActiveFriendMobs.Add(controller);
             }, controller =>
             {
                 controller.gameObject.SetActive(false);
-                ActiveFriendMobs.Remove(controller);
+                
             }, collectionCheck:false);
             
             _enemyMobPool = new ObjectPool<MobController>((() =>
@@ -57,15 +56,22 @@ namespace Mob
             }, collectionCheck:false);
         }
 
+        public void ReInitialize()
+        {
+            RemoveAll();
+        }
+        
         public void Remove(MobController mob)
         {
             if (mob.Side == Side.Friend)
             {
                 _friendMobPool.Release(mob);
+                ActiveFriendMobs.Remove(mob);
             }
             else
             {
                 _enemyMobPool.Release(mob);
+                ActiveEnemyMobs.Remove(mob);
             }
         }
 
@@ -97,8 +103,41 @@ namespace Mob
             {
                 mobController.gameObject.SetActive(true);
                 mobController.StartMove();
+                if (mobController.Side == Side.Friend)
+                {
+                    ActiveFriendMobs.Add(mobController);
+                }
+                else
+                {
+                    ActiveEnemyMobs.Add(mobController);
+                }
             }
         }
 
+        public void RemoveAllFriendlies()
+        {
+            foreach (MobController mob in ActiveFriendMobs)
+            {
+                _friendMobPool.Release(mob);
+            }
+
+            ActiveFriendMobs.Clear();
+        }
+        
+        public void RemoveAllEnemies()
+        {
+            foreach (MobController mob in ActiveEnemyMobs)
+            {
+                _enemyMobPool.Release(mob);
+            }
+
+            ActiveFriendMobs.Clear();
+        }
+
+        public void RemoveAll()
+        {
+            RemoveAllFriendlies();
+            RemoveAllEnemies();
+        }
     }
 }
