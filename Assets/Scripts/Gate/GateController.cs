@@ -37,6 +37,11 @@ namespace Gate
             _mobsToIgnore = new HashSet<MobController>();
         }
 
+        public void ReInitialize()
+        {
+            _mobsToIgnore.Clear();
+        }
+
         public void IgnoreMob(MobController mob)
         {
             _mobsToIgnore.Add(mob);

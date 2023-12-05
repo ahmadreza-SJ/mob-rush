@@ -22,6 +22,14 @@ namespace Gate
             GateSubscribed += GateSubscribedCallback;
         }
 
+        public void ReInitialize()
+        {
+            foreach (GateController gate in _gates)
+            {
+                gate.ReInitialize();
+            }
+        }
+
         public void Dispose()
         {
             GateSubscribed -= GateSubscribedCallback;

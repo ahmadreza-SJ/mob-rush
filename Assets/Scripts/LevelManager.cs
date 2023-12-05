@@ -5,6 +5,7 @@ using System.Threading;
 using Cannon;
 using Castle;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Gate;
 using Mob;
 using UnityEngine;
@@ -66,6 +67,7 @@ public class LevelManager : MonoBehaviour
         _inputManager.ReInitialize();
         mobManager.ReInitialize();
         enemyCastleManager.ReInitialize();
+        gateManager.ReInitialize();
     }
 
     private void InitializeInput()
@@ -152,8 +154,6 @@ public class LevelManager : MonoBehaviour
     {
         
         enemyCastleManager.RemoveCastle(castle);
-        
-        Debug.Log(enemyCastleManager.Castles.Count);
         if (enemyCastleManager.Castles.Count == 0)
         {
             Win();
@@ -192,8 +192,9 @@ public class LevelManager : MonoBehaviour
         {
             if (other.CompareTag("EnemyMob"))
             {
-                mobManager.Remove(self);
-                mobManager.Remove(other.GetComponent<MobController>());
+                MobController otherMc = other.GetComponent<MobController>();
+                otherMc.ShowDissolve().OnComplete(() => mobManager.Remove(other.GetComponent<MobController>()));
+                self.ShowDissolve().OnComplete(() => mobManager.Remove(self));
             }
 
             if (other.CompareTag("EnemyCastle"))
