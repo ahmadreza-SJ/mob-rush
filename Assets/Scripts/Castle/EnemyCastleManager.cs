@@ -68,6 +68,7 @@ namespace Castle
 
         public void ReInitialize()
         {
+            _castles.Clear();
             foreach (EnemyCastleController castle in _destroyedCastles)
             {
                 _castles.Add(castle);

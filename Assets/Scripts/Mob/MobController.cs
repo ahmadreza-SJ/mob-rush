@@ -21,6 +21,8 @@ namespace Mob
         public MobCollisionBehaviour CollisionBehaviour => collisionBehaviour;
 
         public Side Side => side;
+
+        public bool released;
         
         
         private void OnValidate()

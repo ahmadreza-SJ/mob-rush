@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Mob;
@@ -19,6 +20,7 @@ namespace Castle
         private float _spawnInterval;
         private CancellationTokenSource _spawnCancellationToken;
         private Transform _transform;
+        private bool _destroyed;
 
         private void Start()
         {
@@ -43,43 +45,43 @@ namespace Castle
         
         public void Initialize(int health, float spawnInterval)
         {
-            
+            _destroyed = false;
             _transform = transform;
             _health = health;
             _spawnInterval = spawnInterval;
             healthText.text = _health.ToString();
-            ResetSpawnTimer();
             gameObject.SetActive(true);
+            ResetSpawnTimer();
         }
 
         private void DestroyCastle()
         {
+            if (_destroyed)
+            {
+                return;
+            }
+
+            _destroyed = true;
             gameObject.SetActive(false);
             CastleDestroyed?.Invoke(this);
-            _spawnCancellationToken?.Cancel();
         }
 
         private void ResetSpawnTimer()
         {
             _spawnCancellationToken?.Dispose();
             _spawnCancellationToken = new CancellationTokenSource();
-            StartSpawnTimer().Forget();
+            StartCoroutine(StartSpawnTimer());
         }
 
         private void OnDestroy()
         {
             _spawnCancellationToken.Cancel();
         }
-        private async UniTask StartSpawnTimer()
+        private IEnumerator StartSpawnTimer()
         {
-            while (true)
+            while (_health > 0)
             {
-                if (_spawnCancellationToken.IsCancellationRequested)
-                {
-                    break;
-                }
-
-                await UniTask.WaitForSeconds(_spawnInterval, cancellationToken: _spawnCancellationToken.Token);
+                yield return new WaitForSeconds(_spawnInterval);
                 EnemyCastleManager.CastleSpawnTimeReached?.Invoke(this, spawnPoint.position);
             }
         }

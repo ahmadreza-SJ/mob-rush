@@ -153,6 +153,7 @@ public class LevelManager : MonoBehaviour
         
         enemyCastleManager.RemoveCastle(castle);
         
+        Debug.Log(enemyCastleManager.Castles.Count);
         if (enemyCastleManager.Castles.Count == 0)
         {
             Win();

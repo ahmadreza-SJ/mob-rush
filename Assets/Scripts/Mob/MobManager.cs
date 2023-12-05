@@ -35,11 +35,14 @@ namespace Mob
             }), controller =>
             {
                 controller.Reinitialize();
+                controller.released = false;
             }, controller =>
-            {
+            {                
+                controller.released = true;
+
                 controller.gameObject.SetActive(false);
                 
-            }, collectionCheck:false);
+            }, collectionCheck:true);
             
             _enemyMobPool = new ObjectPool<MobController>((() =>
             {
@@ -49,11 +52,13 @@ namespace Mob
                 return instance;
             }), controller =>
             {
+                controller.released = false;
                 controller.Reinitialize();
             }, actionOnRelease: controller =>
             {
+                controller.released = true;
                 controller.gameObject.SetActive(false);
-            }, collectionCheck:false);
+            }, collectionCheck:true);
         }
 
         public void ReInitialize()
@@ -63,14 +68,21 @@ namespace Mob
         
         public void Remove(MobController mob)
         {
+            
             if (mob.Side == Side.Friend)
             {
-                _friendMobPool.Release(mob);
+                if (!mob.released)
+                {
+                    _friendMobPool.Release(mob);;
+                }
                 ActiveFriendMobs.Remove(mob);
             }
             else
             {
-                _enemyMobPool.Release(mob);
+                if (!mob.released)
+                {
+                    _enemyMobPool.Release(mob);
+                }
                 ActiveEnemyMobs.Remove(mob);
             }
         }
@@ -118,7 +130,10 @@ namespace Mob
         {
             foreach (MobController mob in ActiveFriendMobs)
             {
-                _friendMobPool.Release(mob);
+                if(!mob.released)
+                {
+                    _friendMobPool.Release(mob);
+                }
             }
 
             ActiveFriendMobs.Clear();
@@ -128,7 +143,10 @@ namespace Mob
         {
             foreach (MobController mob in ActiveEnemyMobs)
             {
-                _enemyMobPool.Release(mob);
+                if (!mob.released)
+                {
+                    _enemyMobPool.Release(mob);
+                }
             }
 
             ActiveFriendMobs.Clear();
