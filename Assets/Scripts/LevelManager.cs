@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -8,6 +9,7 @@ using Gate;
 using Mob;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [DefaultExecutionOrder(-1)]
 public class LevelManager : MonoBehaviour
@@ -33,6 +35,32 @@ public class LevelManager : MonoBehaviour
         InitializeGates();
     }
 
+    private void OnDestroy()
+    {
+        
+        winPopUpController.RestartBtnClicked -= PopUpControllerOnRestartBtnClicked;
+        losePopUpController.RestartBtnClicked -= PopUpControllerOnRestartBtnClicked;
+        winPopUpController.MenuBtnClicked -= PopUpControllerOnMenuBtnClicked;
+        losePopUpController.MenuBtnClicked -= PopUpControllerOnMenuBtnClicked;
+        
+        _inputManager.TouchMoveReceived -= MoveCannonXCallback;
+        _inputManager.TouchStarted -= CannonStartFire;
+        _inputManager.TouchEnded -= CannonEndFire;
+        
+        
+        cannonController.FireBehaviour.FiredAction -= SpawnFriendlyMob;
+        
+        GateController.MobPassed -= MobPassedGate;
+        
+        
+        EnemyCastleManager.CastleSpawnTimeReached -= CastleSpawnEnemyMob;
+        EnemyCastleController.FriendMobEnteredArea -= FriendMobEnteredCastleArea;
+        EnemyCastleController.CastleDestroyed -= OnCastleDestroyed;
+        
+        
+        MobCollisionBehaviour.Collided -= MobCollidedCallback;
+    }
+
     private void ReInitialize()
     {
         _inputManager.ReInitialize();
@@ -54,12 +82,16 @@ public class LevelManager : MonoBehaviour
         losePopUpController.RestartBtnClicked += PopUpControllerOnRestartBtnClicked;
         winPopUpController.MenuBtnClicked += PopUpControllerOnMenuBtnClicked;
         losePopUpController.MenuBtnClicked += PopUpControllerOnMenuBtnClicked;
+        
+        
+        
+        
     }
 
     private void PopUpControllerOnMenuBtnClicked()
     {
-        
-        
+
+        SceneManager.LoadScene("MainMenu");
         winPopUpController.gameObject.SetActive(false);
         losePopUpController.gameObject.SetActive(false);
     }

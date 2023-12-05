@@ -66,6 +66,10 @@ namespace Castle
             StartSpawnTimer().Forget();
         }
 
+        private void OnDestroy()
+        {
+            _spawnCancellationToken.Cancel();
+        }
         private async UniTask StartSpawnTimer()
         {
             while (true)

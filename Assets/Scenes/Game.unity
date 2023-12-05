@@ -861,6 +861,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 246390750}
     m_Modifications:
+    - target: {fileID: 4717775639134116404, guid: 9c28d444687e189408b3a6f2424a4595,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.019607853
+      objectReference: {fileID: 0}
+    - target: {fileID: 4717775639134116404, guid: 9c28d444687e189408b3a6f2424a4595,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.02843969
+      objectReference: {fileID: 0}
+    - target: {fileID: 4717775639134116404, guid: 9c28d444687e189408b3a6f2424a4595,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.47058824
+      objectReference: {fileID: 0}
     - target: {fileID: 4717775639484918144, guid: 9c28d444687e189408b3a6f2424a4595,
         type: 3}
       propertyPath: m_Pivot.x
@@ -970,6 +985,18 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LosePopUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4717775639484918147, guid: 9c28d444687e189408b3a6f2424a4595,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4717775639943416260, guid: 9c28d444687e189408b3a6f2424a4595,
+        type: 3}
+      propertyPath: m_text
+      value: 'You Lost
+
+'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c28d444687e189408b3a6f2424a4595, type: 3}
