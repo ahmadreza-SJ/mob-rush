@@ -44,6 +44,7 @@ namespace Mob
             _moveDirection = _sideMoveDirectionDictionary[side];
             _target = _transform.position + _moveDirection * maxDistance;
             _isMoving = true;
+            _transform.DOLookAt(_target, 0.1f, AxisConstraint.Y);
             KeepMoving().Forget();
         }
 
@@ -52,6 +53,7 @@ namespace Mob
             while (_isMoving)
             {
                 _rigidbody.velocity = (_target - _transform.position).normalized * moveSpeed;
+                
                 await UniTask.Yield();
             }
         }
@@ -64,11 +66,13 @@ namespace Mob
             }
             
             _target = newTarget;
+            _transform.DOLookAt(_target, 0.1f, AxisConstraint.Y);
         }
         
         public void ForceSetTarget(Vector3 newTarget)
         {
             _target = newTarget;
+            _transform.DOLookAt(_target, 0.1f, AxisConstraint.Y);
         }
 
         public void LockTarget(bool locked)

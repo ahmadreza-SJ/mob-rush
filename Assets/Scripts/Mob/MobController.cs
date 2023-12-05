@@ -11,7 +11,6 @@ namespace Mob
         [SerializeField] private Side side;
         [SerializeField] private Material friendMat;
         [SerializeField] private Material enemyMat;
-        [SerializeField] private List<Renderer> sideColoredRenderers;
         [SerializeField] private MobMovementBehaviour movementBehaviour;
         [SerializeField] private MobCollisionBehaviour collisionBehaviour;
 
@@ -23,17 +22,6 @@ namespace Mob
         public Side Side => side;
 
         public bool released;
-        
-        
-        private void OnValidate()
-        {
-            SetSideMaterial();
-            foreach (Renderer r in sideColoredRenderers)
-            {
-                r.material = _sideMaterial;
-            }
-        }
-        
         
 
         public void Initialize()
