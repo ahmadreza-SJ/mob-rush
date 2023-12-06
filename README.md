@@ -18,7 +18,7 @@
   
       1. The used to be `Singleton` class containes an `static Action`
       2. Instances of the The used to be `Singleton` class subscribe to that Action upon initializing.
-      3. Any other class that needs to call a function from the former `Singleton` class now can invoke the `static Action`. Instances of the former `Singleton` class has already subscribed the needed method to that Action, so it's just like calling a `Singleton` object instance method. 
+      3. Any other class that needs to call a function from the former `Singleton` class now can invoke the `static Action`. Instances of the former `Singleton` class has already subscribed the needed method to that Action, so it's just like calling a `Singleton` object instance method. (See `EnemyCastleManager` as an example) 
 
   - For mobs creation and deletion, used Unity's built-in `ObjectPool`
   - For async functions, used `UniTask`
