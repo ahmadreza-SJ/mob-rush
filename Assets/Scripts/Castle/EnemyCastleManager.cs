@@ -54,7 +54,14 @@ namespace Castle
             _castles.Remove(castle);
             _destroyedCastles.Add(castle);
         }
-        
+
+        public void StopAllSpawning()
+        {
+            foreach (EnemyCastleController castle in _castles)
+            {
+                castle.StopSpawning();
+            }
+        }
         
         // Start is called before the first frame update
         public void Initialize()
@@ -68,10 +75,16 @@ namespace Castle
 
         public void ReInitialize()
         {
-            _castles.Clear();
             foreach (EnemyCastleController castle in _destroyedCastles)
             {
-                _castles.Add(castle);
+                if(!_castles.Contains(castle))
+                {
+                    _castles.Add(castle);
+                }
+            }
+            
+            foreach (EnemyCastleController castle in _castles)
+            {
                 castle.Initialize(health, spawnInterval);
             }
             

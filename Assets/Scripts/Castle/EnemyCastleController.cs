@@ -18,9 +18,10 @@ namespace Castle
     
         private int _health;
         private float _spawnInterval;
-        private CancellationTokenSource _spawnCancellationToken;
         private Transform _transform;
         private bool _destroyed;
+        private bool _spawnStopped;
+        private Coroutine _spawnCoroutine;
 
         private void Start()
         {
@@ -46,6 +47,7 @@ namespace Castle
         public void Initialize(int health, float spawnInterval)
         {
             _destroyed = false;
+            _spawnStopped = false;
             _transform = transform;
             _health = health;
             _spawnInterval = spawnInterval;
@@ -61,6 +63,7 @@ namespace Castle
                 return;
             }
 
+            _spawnStopped = true;
             _destroyed = true;
             gameObject.SetActive(false);
             CastleDestroyed?.Invoke(this);
@@ -68,18 +71,22 @@ namespace Castle
 
         private void ResetSpawnTimer()
         {
-            _spawnCancellationToken?.Dispose();
-            _spawnCancellationToken = new CancellationTokenSource();
-            StartCoroutine(StartSpawnTimer());
+            _spawnCoroutine = StartCoroutine(StartSpawnTimer());
         }
 
-        private void OnDestroy()
+        public void StopSpawning()
         {
-            _spawnCancellationToken.Cancel();
+            _spawnStopped = true;
+            if(_spawnCoroutine != null)
+            {
+                StopCoroutine(_spawnCoroutine);
+            }
+
         }
+        
         private IEnumerator StartSpawnTimer()
         {
-            while (_health > 0)
+            while (!_spawnStopped)
             {
                 yield return new WaitForSeconds(_spawnInterval);
                 EnemyCastleManager.CastleSpawnTimeReached?.Invoke(this, spawnPoint.position);

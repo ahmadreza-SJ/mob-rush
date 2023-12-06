@@ -86,8 +86,6 @@ public class LevelManager : MonoBehaviour
         losePopUpController.MenuBtnClicked += PopUpControllerOnMenuBtnClicked;
         
         
-        
-        
     }
 
     private void PopUpControllerOnMenuBtnClicked()
@@ -228,6 +226,7 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Lost");
         _inputManager.DisableGameplayInput();
         mobManager.RemoveAll();
+        enemyCastleManager.StopAllSpawning();
         losePopUpController.gameObject.SetActive(true);
     }
 
